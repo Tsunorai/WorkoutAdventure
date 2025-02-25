@@ -1,0 +1,103 @@
+[gd_scene load_steps=10 format=3 uid="uid://bt7m0cqbe8ru1"]
+
+[ext_resource type="Texture2D" uid="uid://ch2uxtib1f1wm" path="res://assets/city_background2.png" id="1_ylebh"]
+[ext_resource type="Script" path="res://scripts/GoToAdventure.cs" id="2_ayuar"]
+[ext_resource type="Script" path="res://scripts/Casino.cs" id="2_blmnb"]
+[ext_resource type="Script" path="res://scripts/Exit.cs" id="2_ef31l"]
+[ext_resource type="Script" path="res://scripts/City.cs" id="2_wdhss"]
+[ext_resource type="Texture2D" uid="uid://dfwnyigv1lqu0" path="res://assets/exit.png" id="3_54aux"]
+[ext_resource type="Texture2D" uid="uid://d4cateecp7f3s" path="res://assets/adventure_icon.png" id="3_blh0a"]
+[ext_resource type="Texture2D" uid="uid://b5ek88u4iwb6a" path="res://assets/casino_icon.png" id="5_s0und"]
+[ext_resource type="Texture2D" uid="uid://l35y3ycqam7a" path="res://assets/market_icon.png" id="6_cm8t0"]
+
+[node name="City" type="Node2D"]
+scale = Vector2(1.66621, 1.67313)
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(577, 323.081)
+scale = Vector2(1.49881, 1.11648)
+texture = ExtResource("1_ylebh")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+script = ExtResource("2_wdhss")
+
+[node name="Title" type="Label" parent="CanvasLayer"]
+offset_left = 391.0
+offset_top = 2.0
+offset_right = 966.0
+offset_bottom = 130.0
+scale = Vector2(2.17302, 1.90626)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "Workout Adventure"
+horizontal_alignment = 1
+
+[node name="XP_label" type="Label" parent="CanvasLayer"]
+offset_left = 49.0
+offset_top = 22.0
+offset_right = 204.0
+offset_bottom = 92.0
+scale = Vector2(1.42982, 1.30524)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 50
+text = "XP: 0"
+horizontal_alignment = 1
+
+[node name="Exit" type="GridContainer" parent="CanvasLayer"]
+offset_left = 14.0
+offset_top = 88.0
+offset_right = 374.0
+offset_bottom = 448.0
+scale = Vector2(0.825624, 0.794796)
+script = ExtResource("2_ef31l")
+
+[node name="Button" type="TextureButton" parent="CanvasLayer/Exit"]
+layout_mode = 2
+texture_normal = ExtResource("3_54aux")
+
+[node name="Adventure" type="GridContainer" parent="CanvasLayer"]
+offset_left = 1236.0
+offset_top = 556.0
+offset_right = 1551.0
+offset_bottom = 859.0
+script = ExtResource("2_ayuar")
+
+[node name="Button" type="TextureButton" parent="CanvasLayer/Adventure"]
+layout_mode = 2
+texture_normal = ExtResource("3_blh0a")
+
+[node name="Label" type="Label" parent="CanvasLayer/Adventure"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 35
+text = "Adventure"
+horizontal_alignment = 1
+
+[node name="Casino" type="GridContainer" parent="CanvasLayer"]
+offset_left = 1312.0
+offset_top = 377.0
+offset_right = 1854.0
+offset_bottom = 992.0
+scale = Vector2(0.33358, 0.380735)
+script = ExtResource("2_blmnb")
+
+[node name="Button" type="TextureButton" parent="CanvasLayer/Casino"]
+layout_mode = 2
+texture_normal = ExtResource("5_s0und")
+
+[node name="Market" type="GridContainer" parent="CanvasLayer"]
+offset_left = 775.0
+offset_top = 529.0
+offset_right = 1275.0
+offset_bottom = 1169.0
+scale = Vector2(0.440039, 0.426491)
+script = ExtResource("2_blmnb")
+
+[node name="Label" type="Label" parent="CanvasLayer/Market"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Market"
+horizontal_alignment = 1
+
+[node name="Button" type="TextureButton" parent="CanvasLayer/Market"]
+layout_mode = 2
+texture_normal = ExtResource("6_cm8t0")

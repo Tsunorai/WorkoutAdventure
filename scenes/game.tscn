@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjc48pjltdsx1"]
+
+[ext_resource type="PackedScene" uid="uid://bt7m0cqbe8ru1" path="res://scenes/city.tscn" id="1_tml1s"]
+
+[node name="Game" type="Node2D"]
+position = Vector2(-3, -3)
+scale = Vector2(1.00137, 1.00412)
+
+[node name="City" parent="." instance=ExtResource("1_tml1s")]

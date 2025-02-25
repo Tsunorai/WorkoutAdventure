@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5qs2bskvfn1a"]
+
+[ext_resource type="Texture2D" uid="uid://b0p7frius57xm" path="res://assets/notImplemented.png" id="1_o406q"]
+
+[node name="NotImplemented" type="Node2D"]
+scale = Vector2(7.09478, 6.38311)
+
+[node name="Temp" type="Sprite2D" parent="."]
+texture = ExtResource("1_o406q")
