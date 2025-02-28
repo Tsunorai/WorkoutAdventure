@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://qf76872h8ecu"]
+
+[ext_resource type="Script" path="res://scripts/Inventory.cs" id="1_4pqqn"]
+
+[node name="Inventory" type="Node2D"]
+position = Vector2(58, 35)
+script = ExtResource("1_4pqqn")
+
+[node name="ItemList" type="ItemList" parent="."]
+offset_left = -17.0
+offset_top = -8.0
+offset_right = 1798.0
+offset_bottom = 989.0
+auto_height = true

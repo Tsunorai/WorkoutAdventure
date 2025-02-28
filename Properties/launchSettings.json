@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "WorkoutAdventure": {
+      "commandName": "Project",
+      "commandLineArgs": "-e --path \"C:\\dev\\Godot\\projects\\workoutadventure\""
+    }
+  }
+}

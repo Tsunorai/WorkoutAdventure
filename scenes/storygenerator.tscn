@@ -1,25 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://p8lhv3apw3bi"]
+[gd_scene load_steps=2 format=3 uid="uid://p8lhv3apw3bi"]
 
 [ext_resource type="Script" path="res://scripts/StoryGenerator.cs" id="1_w5qbr"]
-[ext_resource type="Texture2D" uid="uid://dxyhlftljqvsg" path="res://assets/city_background.png" id="2_5wr3i"]
 
 [node name="StoryGenerator" type="Node"]
 script = ExtResource("1_w5qbr")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-z_index = 10
-position = Vector2(957, 543)
-scale = Vector2(2.49966, 1.88245)
-texture = ExtResource("2_5wr3i")
-
-[node name="Label" type="Label" parent="Sprite2D"]
-offset_left = -235.633
-offset_top = 16.4679
-offset_right = 284.367
-offset_bottom = 239.468
-theme_override_font_sizes/font_size = 80
-text = "Generating
-Custom Story"
-horizontal_alignment = 1
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]

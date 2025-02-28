@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GoToAdventure : GridContainer
+public partial class GoToInventory : GridContainer
 {
     public override void _Ready()
     {
@@ -11,6 +11,6 @@ public partial class GoToAdventure : GridContainer
 
     private void OnPressed()
     {
-        GetTree().ChangeSceneToFile("res://scenes/adventure.tscn");
+        GetTree().ChangeSceneToFile("res://scenes/inventory.tscn");
     }
 }
