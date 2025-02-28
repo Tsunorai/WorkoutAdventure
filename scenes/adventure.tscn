@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddvd8hhllepgp"]
+[gd_scene load_steps=3 format=3 uid="uid://ddvd8hhllepgp"]
 
 [ext_resource type="Script" path="res://scripts/Adventure.cs" id="1_bq2h6"]
 [ext_resource type="Texture2D" uid="uid://b3b2pkv5mp5m2" path="res://assets/adventure/img.png" id="2_khtap"]
-[ext_resource type="PackedScene" uid="uid://p8lhv3apw3bi" path="res://scenes/storygenerator.tscn" id="3_bu5ne"]
 
 [node name="Adventure" type="Node2D"]
 position = Vector2(797, 558)
@@ -21,14 +20,13 @@ offset_top = -179.374
 offset_right = -12.7324
 offset_bottom = -148.374
 theme_override_font_sizes/font_size = 22
-text = "The Quest of Arin"
 
 [node name="StoryText" type="RichTextLabel" parent="."]
-offset_left = -301.0
-offset_top = -142.0
-offset_right = 518.0
-offset_bottom = 100.0
-text = "In the heart of the mystical realm of Eldoria, where magic and nature intertwined, lived a young hero named Arin. Arin's journey began in the tranquil village of Loria, nestled between lush forests and towering mountains. One fateful morning, the village elder summoned Arin, revealing an ancient prophecy that foretold a hero who would restore balance to Eldoria by completing a series of physical challenges."
+offset_left = -325.561
+offset_top = -117.816
+offset_right = 493.439
+offset_bottom = 124.184
+theme_override_font_sizes/normal_font_size = 25
 
 [node name="NextBtn" type="Button" parent="."]
 offset_left = 372.933
@@ -37,11 +35,18 @@ offset_right = 519.933
 offset_bottom = 190.441
 text = "Next"
 
-[node name="DoneBtn" type="Button" parent="."]
-offset_left = 202.089
-offset_top = 151.801
-offset_right = 349.089
-offset_bottom = 191.801
-text = "Done"
+[node name="ItemCount" type="Label" parent="."]
+offset_left = 423.329
+offset_top = -187.599
+offset_right = 515.329
+offset_bottom = -132.599
+theme_override_font_sizes/font_size = 40
+text = "Its: 0"
 
-[node name="Storygenerator" parent="." instance=ExtResource("3_bu5ne")]
+[node name="XPCount" type="Label" parent="."]
+offset_left = 421.818
+offset_top = -232.912
+offset_right = 515.818
+offset_bottom = -177.912
+theme_override_font_sizes/font_size = 40
+text = "XP: 0"

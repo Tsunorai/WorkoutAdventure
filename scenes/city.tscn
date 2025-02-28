@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bt7m0cqbe8ru1"]
+[gd_scene load_steps=11 format=3 uid="uid://bt7m0cqbe8ru1"]
 
 [ext_resource type="Texture2D" uid="uid://ch2uxtib1f1wm" path="res://assets/city_background2.png" id="1_ylebh"]
 [ext_resource type="Script" path="res://scripts/GoToAdventure.cs" id="2_ayuar"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://d4cateecp7f3s" path="res://assets/adventure_icon.png" id="3_blh0a"]
 [ext_resource type="Texture2D" uid="uid://b5ek88u4iwb6a" path="res://assets/casino_icon.png" id="5_s0und"]
 [ext_resource type="Texture2D" uid="uid://l35y3ycqam7a" path="res://assets/market_icon.png" id="6_cm8t0"]
+[ext_resource type="Script" path="res://scripts/GoToInventory.cs" id="10_qvd4x"]
 
 [node name="City" type="Node2D"]
 scale = Vector2(1.66621, 1.67313)
@@ -99,5 +100,16 @@ text = "Market"
 horizontal_alignment = 1
 
 [node name="Button" type="TextureButton" parent="CanvasLayer/Market"]
+layout_mode = 2
+texture_normal = ExtResource("6_cm8t0")
+
+[node name="Inventory" type="GridContainer" parent="CanvasLayer"]
+offset_left = 1700.0
+offset_right = 2200.0
+offset_bottom = 640.0
+scale = Vector2(0.440039, 0.426491)
+script = ExtResource("10_qvd4x")
+
+[node name="Button" type="TextureButton" parent="CanvasLayer/Inventory"]
 layout_mode = 2
 texture_normal = ExtResource("6_cm8t0")

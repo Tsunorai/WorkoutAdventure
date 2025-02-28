@@ -1,3 +1,7 @@
 # Godot 4+ specific ignores
 .godot/
+.vs/
+WorkoutAdventure.csproj
+WorkoutAdventure.sln
+export_presets.cfg
 /android/
