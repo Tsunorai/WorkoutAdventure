@@ -14,5 +14,13 @@ public partial class Inventory : Node2D
         {
             items.AddItem($"{item.Value}   {item.Rarity}   {item.Name}");
         }
+
+        Button button = GetNode<Button>("BackButton");
+        button.Pressed += OnPressed;
+    }
+
+    public void OnPressed()
+    {
+        GetTree().ChangeSceneToFile("res://scenes/city.tscn");
     }
 }

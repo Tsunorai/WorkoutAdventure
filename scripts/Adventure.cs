@@ -45,20 +45,35 @@ public partial class Adventure : Node2D
         nextBtn.Pressed += OnPressNext;
         OnPressNext();
     }
+
     private void OnPressNext()
     {
         if (storyIndex == storyParts.Length)
         {
             GameData.Instance.PlayerXP += collectedXP;
-            GameData.Instance.Inventory.AddRange(collectedLoot);
+            GameData.Instance.AddItems(collectedLoot);
 
             GetTree().ChangeSceneToFile("res://scenes/city.tscn");
         }
         else if (storyIndex == storyParts.Length - 1)
         {
             nextBtn.Text = "End Adventure";
+            GetTree().ChangeSceneToFile("res://scenes/city.tscn");
         }
-        ManageStoryPart(storyParts[storyIndex]);
+
+
+        StoryPart storyPart = storyParts[storyIndex];
+        int index = storyIndex;
+
+        while (storyPart == null)
+        {
+            GD.PrintErr("Null storypart");
+            storyPart = storyParts[index];
+        }
+
+        storyIndex = index;
+
+        ManageStoryPart(storyPart);
     }
 
     private void ManageStoryPart(StoryPart part)

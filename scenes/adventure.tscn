@@ -22,10 +22,10 @@ offset_bottom = -148.374
 theme_override_font_sizes/font_size = 22
 
 [node name="StoryText" type="RichTextLabel" parent="."]
-offset_left = -325.561
-offset_top = -117.816
-offset_right = 493.439
-offset_bottom = 124.184
+offset_left = -326.0
+offset_top = -118.0
+offset_right = 517.0
+offset_bottom = 142.0
 theme_override_font_sizes/normal_font_size = 25
 
 [node name="NextBtn" type="Button" parent="."]
