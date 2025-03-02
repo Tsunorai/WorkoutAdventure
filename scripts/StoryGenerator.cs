@@ -14,7 +14,7 @@ public partial class StoryGenerator : Node
     [Signal]
     public delegate void LoadingEndedEventHandler(StoryPart[] storyData);
 
-    string prompt = "You are a Story Generator for a fitness-themed adventure game. The objective is to create an engaging narrative that incorporates workout tasks into a storyline, ensuring that each workout is framed within the context of an adventure. The narrative should include elements of exploration, combat, and treasure hunting, all while maintaining a clear structure for parsing.  \n\nRequirements: \n\nStory Structure: The output should be a JSON array consisting of multiple objects. Each object must have a 'type' field that can be one of the following: Story, Workout, Fight, or Loot. \n\nObject Fields: \n\nFor type Story: \n\nInclude a ‘text’ field that contains the narrative description of the current scenario. \n\nFor type Workout: \n\nInclude a ‘text’ field that describes the specific workout task the adventurer must complete. Notice that the adventurer does not do the task. Just the player of the game. \n\nAdd an ‘xp’ field that indicates the experience points awarded for completing the task. XP should range from 10 to 200 based on the task's difficulty. \n\nFor type Fight or Loot: \n\nInclude a ‘text’ field that describes the context of the fight or loot scenario. Every fight and loot scenario must contain a workout task. So, add this to the end of the ‘text’ field. \n\nInclude an ‘xp’ field as described above. XP can only be earned trough a workout task. \n\nAdd a loot field that is an array of objects, which can include: \n\nItems and Coins \n\nEach item should have: \n\nname: The name of the item. \n\nrarity: One of the following values: Common, Uncommon, Rare, Epic, Legendary. \n\nvalue: The value of the item in coins. \n\nThe Coins: Represented as an item object with: \n\nname: Set to \"Coin\". \n\nvalue: The amount of coins awarded, which should range from 5 to 500 depending on the task. \n\nTask Relevance: Ensure that each workout task logically fits within the context of the ongoing adventure. For instance, if the adventurer is fighting an enemy, the workout should be related to strength. Do not use '. \n\nDo only return the one JSON array with no commentary.";
+    string prompt = "Start prompt: You are a Story Generator for a fitness-themed adventure game. The objective is to create an engaging narrative that incorporates workout tasks into a storyline, ensuring that each workout is framed within the context of an adventure. The narrative should include elements of exploration, combat, and treasure hunting, all while maintaining a clear structure for parsing.  \n\nRequirements: \n\nStory Structure: The output should be a JSON array consisting of multiple objects. Each object must have a 'type' field that can be one of the following: Story, Workout, Fight, or Loot. \n\nObject Fields: \n\nFor type Story: \n\nInclude a ‘text’ field that contains the narrative description of the current scenario. \n\nFor type Workout: \n\nInclude a ‘text’ field that describes the specific workout task the adventurer must complete. Notice that the adventurer does not do the task. Just the player of the game. \n\nAdd an ‘xp’ field that indicates the experience points awarded for completing the task. XP should range from 10 to 200 based on the task's difficulty. \n\nFor type Fight or Loot: \n\nInclude a ‘text’ field that describes the context of the fight or loot scenario. Every fight and loot scenario must contain a workout task. So, add this to the end of the ‘text’ field. \n\nInclude an ‘xp’ field as described above. XP can only be earned trough a workout task. \n\nAdd a loot field that is an array of objects, which can include: \n\nItems and Coins \n\nEach item should have: \n\nname: The name of the item. \n\nrarity: One of the following values: Common, Uncommon, Rare, Epic, Legendary. \n\nvalue: The value of the item in coins. \n\nThe Coins: Represented as an item object with: \n\nname: Set to \"Coin\". \n\nvalue: The amount of coins awarded, which should range from 5 to 500 depending on the task. \n\nTask Relevance: Ensure that each workout task logically fits within the context of the ongoing adventure. For instance, if the adventurer is fighting an enemy, the workout should be related to strength. Do not use '. \n\nDo only return the ONE JSON array with no commentary. End prompt.";
 
     public override void _Ready()
     {
@@ -37,7 +37,7 @@ public partial class StoryGenerator : Node
         };
 
         Dictionary data = new();
-        data["inputs"] = prompt + " Ignore: timestamp: " + System.DateTime.Now.Ticks;
+        data["inputs"] = prompt + " Ignore: " + System.DateTime.Now.Ticks + ".";
         Json json = new();
 
         string jsonData = Json.Stringify(data);
@@ -65,7 +65,7 @@ public partial class StoryGenerator : Node
             Error jsonResult = json.Parse(responseText);
             if (jsonResult == Error.Ok)
             {
-                Godot.Collections.Array parsedResult = Json.ParseString(Encoding.UTF8.GetString(body)).AsGodotArray();
+                Godot.Collections.Array parsedResult = Json.ParseString(responseText).AsGodotArray();
 
                 if (parsedResult != null || parsedResult.Count == 0)
                 {
@@ -76,7 +76,8 @@ public partial class StoryGenerator : Node
                         if (dataDict != null && dataDict.ContainsKey("generated_text"))
                         {
                             string generatedText = (string)dataDict["generated_text"];
-                            GetStoryArray(generatedText);
+
+                            GetStoryArray(generatedText, false);
                             return;
                         }
                     }
@@ -102,7 +103,7 @@ public partial class StoryGenerator : Node
 
     private void LoadOldStory()
     {
-        string directoryPath = @"C:\your_directory";  // Replace with your directory path
+        string directoryPath = @"C:/dev/Godot/projects/workoutadventure/userFiles/story";
 
         string fileContent;
         if (System.IO.Directory.Exists(directoryPath))
@@ -114,38 +115,41 @@ public partial class StoryGenerator : Node
                 string randomFile = files[random.Next(files.Length)];
                 fileContent = System.IO.File.ReadAllText(randomFile);
 
-                GetStoryArray(fileContent);
+                GetStoryArray(fileContent, true);
             }
         }
     }
 
-    private void GetStoryArray(string response)
+    private void GetStoryArray(string response, bool isOldStory)
     {
-        int startIndex = response.IndexOf('[');
-        int endIndex = response.LastIndexOf(']');
-        if (startIndex == -1 || endIndex == -1 || endIndex < startIndex)
+        if (!isOldStory)
         {
-            GD.Print("JSON array not found in the response.");
-            return;
+            int startIndex = response.IndexOf('[');
+            int endIndex = response.LastIndexOf(']');
+            if (startIndex == -1 || endIndex == -1 || endIndex < startIndex)
+            {
+                GD.Print("JSON array not found in the response.");
+                return;
+            }
+
+
+            // Parse the JSON array using Godot's JSON parser
+            Json json = new();
+            Error parseResult = json.Parse(response);
+            if (parseResult != Error.Ok)
+            {
+                GD.Print("Error parsing JSON: " + parseResult);
+                return;
+            }
+
+            // Extract the substring that represents the JSON array
+            response = response.Substring(startIndex, endIndex - startIndex + 1);
+            FileAccess file = FileAccess.Open($"C:/dev/Godot/projects/workoutadventure/userFiles/story/{System.DateTime.Now.Ticks}.txt", FileAccess.ModeFlags.Write);
+            file.StoreString(response);
+            file.Close();
+            GD.Print("Story saved");
         }
-
-        // Extract the substring that represents the JSON array
-        string jsonArrayString = response.Substring(startIndex, endIndex - startIndex + 1);
-        FileAccess file = FileAccess.Open($"C:/dev/Godot/projects/workoutadventure/userFiles/story/{System.DateTime.Now.Ticks}.txt", FileAccess.ModeFlags.Write);
-        file.StoreString(jsonArrayString);
-        file.Close();
-        GD.Print("Story saved");
-
-        // Parse the JSON array using Godot's JSON parser
-        Json json = new();
-        Error parseResult = json.Parse(jsonArrayString);
-        if (parseResult != Error.Ok)
-        {
-            GD.Print("Error parsing JSON: " + parseResult);
-            return;
-        }
-
-        string[] jsonArray = Json.ParseString(jsonArrayString).AsStringArray();
+        string[] jsonArray = Json.ParseString(response).AsStringArray();
 
 
         StoryPart[] storyParts = ParseStories(jsonArray);

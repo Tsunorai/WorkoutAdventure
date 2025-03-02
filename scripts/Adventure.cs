@@ -58,22 +58,10 @@ public partial class Adventure : Node2D
         else if (storyIndex == storyParts.Length - 1)
         {
             nextBtn.Text = "End Adventure";
-            GetTree().ChangeSceneToFile("res://scenes/city.tscn");
         }
 
 
-        StoryPart storyPart = storyParts[storyIndex];
-        int index = storyIndex;
-
-        while (storyPart == null)
-        {
-            GD.PrintErr("Null storypart");
-            storyPart = storyParts[index];
-        }
-
-        storyIndex = index;
-
-        ManageStoryPart(storyPart);
+        ManageStoryPart(storyParts[storyIndex]);
     }
 
     private void ManageStoryPart(StoryPart part)

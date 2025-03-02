@@ -18,9 +18,9 @@ public partial class GameData : Node
     {
         foreach (var newItem in newItems)
         {
-            if (newItem.Name.Equals("Coins"))
+            if (newItem.Name.Equals("Coin"))
             {
-                Loot coinItem = Inventory.FirstOrDefault(item => item.Name.Equals("Coins"));
+                Loot coinItem = Inventory.FirstOrDefault(item => item.Name.Equals("Coin"));
                 if (coinItem != null)
                 {
                     coinItem.Value += newItem.Value;
