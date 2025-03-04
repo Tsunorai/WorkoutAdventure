@@ -57,10 +57,9 @@ public partial class StoryGenerator : Node
         {
             // Convert the response byte array into a UTF8 string.
             string responseText = Encoding.UTF8.GetString(body);
-            FileAccess file = FileAccess.Open($"C:/dev/Godot/projects/workoutadventure/userFiles/success/{System.DateTime.Now.Ticks}.txt", FileAccess.ModeFlags.Write);
-            file.StoreString(responseText);
-            file.Close();
-            GD.Print("Response written to file");
+
+            DiskManager.Instance.SaveData($"success/{System.DateTime.Now.Ticks}.txt", responseText);
+
             Json json = new();
             Error jsonResult = json.Parse(responseText);
             if (jsonResult == Error.Ok)
@@ -77,7 +76,7 @@ public partial class StoryGenerator : Node
                         {
                             string generatedText = (string)dataDict["generated_text"];
 
-                            GetStoryArray(generatedText, false);
+                            GetArrayFromJSON(generatedText);
                             return;
                         }
                     }
@@ -91,11 +90,7 @@ public partial class StoryGenerator : Node
         else
         {
             GD.Print("Request failed with response code: " + responseCode);
-            FileAccess file = FileAccess.Open($"C:/dev/Godot/projects/workoutadventure/userFiles/errors/{System.DateTime.Now.Ticks}.txt", FileAccess.ModeFlags.Write);
-            file.StoreBuffer(body);
-            file.Close();
-
-            GD.Print("Written Error in File");
+            DiskManager.Instance.SaveDataBytes($"errors/{System.DateTime.Now.Ticks}.txt", body);
         }
 
         LoadOldStory();
@@ -103,52 +98,51 @@ public partial class StoryGenerator : Node
 
     private void LoadOldStory()
     {
-        string directoryPath = @"C:/dev/Godot/projects/workoutadventure/userFiles/story";
+        string[] files = DiskManager.Instance.LoadDataFromDir("story");
 
         string fileContent;
-        if (System.IO.Directory.Exists(directoryPath))
+        if (files != null && files.Length > 0)
         {
-            string[] files = System.IO.Directory.GetFiles(directoryPath);
-            if (files.Length > 0)
-            {
-                Random random = new();
-                string randomFile = files[random.Next(files.Length)];
-                fileContent = System.IO.File.ReadAllText(randomFile);
+            Random random = new();
+            string randomFile = files[random.Next(files.Length)];
+            fileContent = System.IO.File.ReadAllText(randomFile);
 
-                GetStoryArray(fileContent, true);
-            }
+            GetStoryArray(fileContent);
         }
     }
 
-    private void GetStoryArray(string response, bool isOldStory)
+    private void GetArrayFromJSON(string response)
     {
-        if (!isOldStory)
+        int startIndex = response.IndexOf('[');
+        int endIndex = response.LastIndexOf(']');
+        if (startIndex == -1 || endIndex == -1 || endIndex < startIndex)
         {
-            int startIndex = response.IndexOf('[');
-            int endIndex = response.LastIndexOf(']');
-            if (startIndex == -1 || endIndex == -1 || endIndex < startIndex)
-            {
-                GD.Print("JSON array not found in the response.");
-                return;
-            }
-
-
-            // Parse the JSON array using Godot's JSON parser
-            Json json = new();
-            Error parseResult = json.Parse(response);
-            if (parseResult != Error.Ok)
-            {
-                GD.Print("Error parsing JSON: " + parseResult);
-                return;
-            }
-
-            // Extract the substring that represents the JSON array
-            response = response.Substring(startIndex, endIndex - startIndex + 1);
-            FileAccess file = FileAccess.Open($"C:/dev/Godot/projects/workoutadventure/userFiles/story/{System.DateTime.Now.Ticks}.txt", FileAccess.ModeFlags.Write);
-            file.StoreString(response);
-            file.Close();
-            GD.Print("Story saved");
+            GD.Print("JSON array not found in the response.");
+            return;
         }
+
+
+        // Parse the JSON array using Godot's JSON parser
+        Json json = new();
+        Error parseResult = json.Parse(response);
+        if (parseResult != Error.Ok)
+        {
+            GD.Print("Error parsing JSON: " + parseResult);
+            return;
+        }
+
+        // Extract the substring that represents the JSON array
+        response = response.Substring(startIndex, endIndex - startIndex + 1);
+        FileAccess file = FileAccess.Open($"/userFiles/story/{System.DateTime.Now.Ticks}.txt", FileAccess.ModeFlags.Write);
+        file.StoreString(response);
+        file.Close();
+        GD.Print("Story saved");
+
+        GetStoryArray(response);
+    }
+
+    private void GetStoryArray(string response)
+    {
         string[] jsonArray = Json.ParseString(response).AsStringArray();
 
 

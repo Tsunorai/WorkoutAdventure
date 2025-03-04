@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using WorkoutAdventure.scripts.model;
 
@@ -26,7 +25,6 @@ public partial class Adventure : Node2D
         storyGenerator = storyGeneratorScene.Instantiate<StoryGenerator>();
         AddChild(storyGenerator);
         storyGenerator.LoadingEnded += StartAdventure;
-
         xpCount = GetNode<Label>("XPCount");
         itemCount = GetNode<Label>("ItemCount");
 

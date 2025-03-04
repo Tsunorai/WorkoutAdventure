@@ -3,25 +3,48 @@ using System;
 
 public partial class City : Node2D
 {
-    Label xpLabel;
     public override void _Ready()
     {
-        xpLabel = GetNode<Label>("CanvasLayer/XP_label");
-        xpLabel.Text = "XP: " + GameData.Instance.PlayerXP;
+        TextureButton adventureButton = GetNode<TextureButton>("CanvasLayer/Adventure/Button");
+        adventureButton.Pressed += (() => ChangeScene("adventure"));
+
+        TextureButton casinoButton = GetNode<TextureButton>("CanvasLayer/Casino/Button");
+        casinoButton.Pressed += (() => ChangeScene("casino"));
 
         TextureButton exitButton = GetNode<TextureButton>("CanvasLayer/Exit/Button");
         exitButton.Pressed += (() => GetTree().Quit());
 
-        TextureButton adventureButton = GetNode<TextureButton>("CanvasLayer/Adventure/Button");
-        adventureButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/adventure.tscn"));
-
-        TextureButton casinoButton = GetNode<TextureButton>("CanvasLayer/Casino/Button");
-        casinoButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/casino.tscn"));
-
         TextureButton marketButton = GetNode<TextureButton>("CanvasLayer/Market/Button");
-        marketButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/market.tscn"));
+        marketButton.Pressed += (() => ChangeScene("market"));
 
         TextureButton inventoryButton = GetNode<TextureButton>("CanvasLayer/Inventory/Button");
-        inventoryButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/inventory.tscn"));
+        inventoryButton.Pressed += (() => ChangeScene("inventory"));
+
+        CalculateLevel();
+    }
+
+    private void CalculateLevel()
+    {
+        ProgressBar xpBar = GetNode<ProgressBar>("XPBar");
+
+        GameData gameData = GameData.Instance;
+
+        int maxXP = 1000 * (int)Math.Pow(0.1, gameData.PlayerLevel - 1);
+
+        while (gameData.PlayerXP >= maxXP)
+        {
+            gameData.PlayerLevel++;
+            gameData.PlayerXP -= maxXP;
+            maxXP = (int)(1000 * Math.Pow(1.1, gameData.PlayerLevel - 1));
+        }
+        xpBar.SetProgress(gameData.PlayerXP, maxXP);
+
+        Label xpLabel = GetNode<Label>("XPBar/XPLabel");
+        xpLabel.Text = $"Lvl: {gameData.PlayerLevel}";
+    }
+
+    private void ChangeScene(string path)
+    {
+        GetTree().ChangeSceneToFile($"res://scenes/{path}.tscn");
     }
 }
