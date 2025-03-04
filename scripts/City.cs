@@ -3,25 +3,32 @@ using System;
 
 public partial class City : Node2D
 {
-    Label xpLabel;
     public override void _Ready()
     {
-        xpLabel = GetNode<Label>("CanvasLayer/XP_label");
-        xpLabel.Text = "XP: " + GameData.Instance.PlayerXP;
-
-        TextureButton exitButton = GetNode<TextureButton>("CanvasLayer/Exit/Button");
-        exitButton.Pressed += (() => GetTree().Quit());
-
         TextureButton adventureButton = GetNode<TextureButton>("CanvasLayer/Adventure/Button");
-        adventureButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/adventure.tscn"));
+        adventureButton.Pressed += (() => ChangeScene("adventure"));
 
         TextureButton casinoButton = GetNode<TextureButton>("CanvasLayer/Casino/Button");
-        casinoButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/casino.tscn"));
-
+        casinoButton.Pressed += (() => ChangeScene("casino"));
+        
+        TextureButton exitButton = GetNode<TextureButton>("CanvasLayer/Exit/Button");
+        exitButton.Pressed += (() => GetTree().Quit());
+        
         TextureButton marketButton = GetNode<TextureButton>("CanvasLayer/Market/Button");
-        marketButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/market.tscn"));
-
+        marketButton.Pressed += (() => ChangeScene("market"));
+        
         TextureButton inventoryButton = GetNode<TextureButton>("CanvasLayer/Inventory/Button");
-        inventoryButton.Pressed += (() => GetTree().ChangeSceneToFile("res://scenes/inventory.tscn"));
+        inventoryButton.Pressed += (() => ChangeScene("inventory"));
+
+        ProgressBar xpBar = GetNode<ProgressBar>("XPBar");
+        xpBar.SetProgress(
+            GameData.Instance.PlayerXP,
+            (int) Math.Pow(1.1, GameData.Instance.PlayerLevel)
+        );
+    }
+
+    private void ChangeScene(string path)
+    {
+        GetTree().ChangeSceneToFile($"res://scenes/{path}.tscn");
     }
 }

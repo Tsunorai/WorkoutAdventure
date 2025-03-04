@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bt7m0cqbe8ru1"]
+[gd_scene load_steps=8 format=3 uid="uid://bt7m0cqbe8ru1"]
 
 [ext_resource type="Texture2D" uid="uid://ch2uxtib1f1wm" path="res://assets/city_background2.png" id="1_ylebh"]
 [ext_resource type="Script" path="res://scripts/City.cs" id="2_wdhss"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d4cateecp7f3s" path="res://assets/adventure_icon.png" id="3_blh0a"]
 [ext_resource type="Texture2D" uid="uid://b5ek88u4iwb6a" path="res://assets/casino_icon.png" id="5_s0und"]
 [ext_resource type="Texture2D" uid="uid://l35y3ycqam7a" path="res://assets/market_icon.png" id="6_cm8t0"]
+[ext_resource type="PackedScene" uid="uid://lflo6hmwpjej" path="res://scenes/progressBar.tscn" id="7_simpj"]
 
 [node name="City" type="Node2D"]
 scale = Vector2(1.66621, 1.67313)
@@ -27,17 +28,6 @@ scale = Vector2(2.17302, 1.90626)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 50
 text = "Workout Adventure"
-horizontal_alignment = 1
-
-[node name="XP_label" type="Label" parent="CanvasLayer"]
-offset_left = 49.0
-offset_top = 22.0
-offset_right = 204.0
-offset_bottom = 92.0
-scale = Vector2(1.42982, 1.30524)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 50
-text = "XP: 0"
 horizontal_alignment = 1
 
 [node name="Exit" type="GridContainer" parent="CanvasLayer"]
@@ -104,3 +94,10 @@ scale = Vector2(0.440039, 0.426491)
 [node name="Button" type="TextureButton" parent="CanvasLayer/Inventory"]
 layout_mode = 2
 texture_normal = ExtResource("6_cm8t0")
+
+[node name="XPBar" parent="." instance=ExtResource("7_simpj")]
+offset_left = 27.6076
+offset_top = 25.1027
+offset_right = 1947.61
+offset_bottom = 350.103
+scale = Vector2(0.133171, 0.122879)
