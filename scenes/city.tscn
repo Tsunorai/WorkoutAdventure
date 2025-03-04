@@ -96,8 +96,18 @@ layout_mode = 2
 texture_normal = ExtResource("6_cm8t0")
 
 [node name="XPBar" parent="." instance=ExtResource("7_simpj")]
-offset_left = 27.6076
-offset_top = 25.1027
-offset_right = 1947.61
-offset_bottom = 350.103
-scale = Vector2(0.133171, 0.122879)
+offset_left = 102.628
+offset_top = 24.505
+offset_right = 2022.63
+offset_bottom = 349.505
+scale = Vector2(0.100555, 0.122879)
+
+[node name="XPLabel" type="Label" parent="XPBar"]
+layout_mode = 0
+offset_left = -781.873
+offset_top = -19.456
+offset_right = -166.873
+offset_bottom = 322.544
+theme_override_font_sizes/font_size = 250
+text = "Lvl: 5
+"
