@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://lflo6hmwpjej"]
+
+[ext_resource type="Texture2D" uid="uid://h1lbv0lioytf" path="res://assets/progessBar.png" id="1_3vv1n"]
+[ext_resource type="Script" path="res://scripts/ProgressBar.cs" id="2_is2wt"]
+
+[node name="TextureProgressBar" type="TextureProgressBar"]
+offset_right = 40.0
+offset_bottom = 40.0
+value = 100.0
+texture_progress = ExtResource("1_3vv1n")
+script = ExtResource("2_is2wt")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = -9.0
+offset_right = 173.0
+offset_bottom = 14.0
+scale = Vector2(11.3969, 14.7918)
+text = "100/100"
+horizontal_alignment = 1
