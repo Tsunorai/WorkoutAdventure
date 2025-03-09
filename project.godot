@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameData="*res://scripts/global/GameData.cs"
+DiskManager="*res://scripts/global/DiskManager.cs"
 
 [dotnet]
 
